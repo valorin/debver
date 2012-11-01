@@ -1,0 +1,23 @@
+{
+    "name": "valorin/debver",
+    "description": "Simple PHP helper class for comparing Debian/Ubuntu package version strings.",
+    "license": "BSD-3-Clause",
+    "homepage": "https://github.com/valorin/debver",
+    "authors": [
+        {
+            "name": "Stephen Rees-Carter",
+            "email": "stephen@rees-carter.net"
+        }
+    ],
+    "keywords": [
+        "debian",
+        "ubuntu",
+        "version",
+        "deb-version"
+    ],
+    "autoload": {
+        "psr-0": {
+            "Debver": "src"
+        }
+    }
+}
