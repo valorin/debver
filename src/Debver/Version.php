@@ -16,7 +16,7 @@ class Version
     /**
      * @var String
      */
-    const REGEX   = "/^(\d+:)?(\d+(?:\.\d+)*)([a-z0-9]+)?(?:\.([a-z]+[a-z0-9\.]*))?(?:(?:-|\+|~|_)(?:(\d*(?:\.\d+)*)([a-z]*))?(\d*(?:\.\d+)*))?(?:(?:-|\+|~)?(?:(\d*(?:\.\d+)*)([a-z]*))?(\d*(?:\.\d+)*))??(?:(?:-|\+|~|\.)?(?:(\d*(?:\.\d+)*)([a-z0-9]*))?(\d*(?:\.\d+)*))??(?:(?:-|\+|~)?(?:(\d*(?:\.\d+)*)([a-z0-9]*))?(\d*(?:\.\d+)*))??$/i";
+    const EXPLODE = "/^(\d+:)?(\d+(?:\.\d+)*)([a-z0-9]+)?(?:\.([a-z]+[a-z0-9\.]*))?(?:(?:-|\+|~|_)(?:(\d*(?:\.\d+)*)([a-z]*))?(\d*(?:\.\d+)*))?(?:(?:-|\+|~)?(?:(\d*(?:\.\d+)*)([a-z]*))?(\d*(?:\.\d+)*))??(?:(?:-|\+|~|\.)?(?:(\d*(?:\.\d+)*)([a-z0-9]*))?(\d*(?:\.\d+)*))??(?:(?:-|\+|~)?(?:(\d*(?:\.\d+)*)([a-z0-9]*))?(\d*(?:\.\d+)*))??$/i";
     const BOOKEND = '#';
     const STRPAD  = ' ';
 
@@ -171,7 +171,7 @@ class Version
          * Throw exception if super regex fails
          */
         $version = str_replace("_", "", $version);
-        if (!preg_match(self::REGEX, $version, $matches)) {
+        if (!preg_match(self::EXPLODE, $version, $matches)) {
             $msg = "Unable to parse version string: {$version}";
             throw new VersionException($msg);
         }
