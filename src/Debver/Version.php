@@ -30,6 +30,11 @@ class Version
      */
     protected $version;
 
+    /**
+     * @var Array
+     */
+    protected $components;
+
 
     /**
      * Compares two Debian\Ubuntu package verison strings and returns:
@@ -127,7 +132,7 @@ class Version
      * Returns a verbose interpretation of $version which can be used
      * in basic string comparison operations (>, <, ==).
      *
-     * $padding is used to pad out the different version components, and MUST
+     * $padding is used to pad out the different version sections, and MUST
      * be te same value for each string being compared. It is a good idea to set
      * this to the length of largest version number.
      *
@@ -146,11 +151,11 @@ class Version
 
 
         /**
-         * Loop components and pad
+         * Loop sections and pad
          */
         $output     = "";
-        $components = self::explode($version);
-        foreach ($components as $value) {
+        $sections = self::explode($version);
+        foreach ($sections as $value) {
             $dir     = is_numeric($value) ? STR_PAD_RIGHT : STR_PAD_LEFT;
             $output .= str_pad($value, $padding, self::STRPAD, $dir);
         }
@@ -164,7 +169,7 @@ class Version
 
 
     /**
-     * Explodes a version string into the useful components
+     * Explodes a version string into the useful sections
      *
      * @param  String $version
      * @return Array
@@ -185,12 +190,12 @@ class Version
         /**
          * Loop matches
          */
-        $components = Array();
+        $sections = Array();
         array_shift($matches);
         foreach ($matches as $match) {
 
             if (!preg_match("/^([0-9\.]+)$/", $match)) {
-                $components[] = $match;
+                $sections[] = $match;
                 continue;
             }
 
@@ -199,11 +204,11 @@ class Version
                 $parts[$key] = str_pad($value, self::ZEROPADLEN, "0", STR_PAD_LEFT);
             }
 
-            $match        = implode($parts);
-            $components[] = str_pad($match, self::ZEROPADLEN * 4, "0");
+            $match      = implode($parts);
+            $sections[] = str_pad($match, self::ZEROPADLEN * 4, "0");
         }
 
-        return $components;
+        return $sections;
     }
 
 
@@ -214,7 +219,39 @@ class Version
      */
     public function __construct($version)
     {
+        /**
+         * Save raw version
+         */
         $this->version = $version;
+
+
+        /**
+         * Extract Epoch
+         */
+        $parts   = explode(":", $version, 2);
+        $version = array_pop($parts);
+        $epoch   = array_shift($parts);
+
+
+        /**
+         * Extract Upstream and Revision
+         */
+        $parts    = explode("-", $version);
+        $revision = null;
+        if (count($parts) > 1) {
+            $revision = array_pop($parts);
+        }
+        $upstream = implode("-", $parts);
+
+
+        /**
+         * Save
+         */
+        $this->components = Array(
+            'epoch'    => $epoch,
+            'upstream' => $upstream,
+            'revision' => $revision,
+        );
     }
 
 
@@ -225,9 +262,7 @@ class Version
      */
     public function getEpoch()
     {
-        $parts = explode(":", $this->version, 2);
-
-        return (count($parts) == 2) ? $parts[0] : null;
+        return $this->components['epoch'];
     }
 
 
@@ -238,14 +273,7 @@ class Version
      */
     public function getUpstream()
     {
-        $parts = explode("-", $this->version);
-
-        if (!count($parts)) {
-            return $this->version;
-        }
-
-        array_pop($this->version);
-        return implode("-", $parts);
+        return $this->components['upstream'];
     }
 
 
@@ -256,12 +284,6 @@ class Version
      */
     public function getRevision()
     {
-        $parts = explode("-", $this->version);
-
-        if (!count($parts)) {
-            return null;
-        }
-
-        return array_pop($this->version);
+        return $this->components['revision'];
     }
 }
