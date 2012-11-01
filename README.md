@@ -53,6 +53,23 @@ $epoch = $version->getRevision();
 
 [Ubuntu manual: deb-version](http://manpages.ubuntu.com/manpages/deb-version.5.html)
 
+**Compare two version strings using dpkg:**
+
+If you are running on a Ubuntu/Debian box, you can use `dpkg` directly to compare two packages (100% accuracy for all of the really wacky version strings).
+This option was added for testing the custom functions, and I decided to leave it in just in case.
+Internally it uses `dpkg --compare-versions {$version1} lt {$version2}` via a `system()` call.
+
+```php
+$result = Version::compareWithDpkg($version1, $version2);
+
+if ($result == -1) {
+    echo "{$version1} < {$version2}";
+} elseif ($result == 0) {
+    echo "{$version1} == {$version2}";
+} elseif ($result == 1) {
+    echo "{$version1} > {$version2}";
+}
+```
 
 **Retrieve a *"compare string"* for storing in a database**
 
