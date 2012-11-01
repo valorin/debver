@@ -1,6 +1,9 @@
 <?php
 namespace Debver\Test;
 
+require_once __DIR__ ."/../../src/Debver/Version.php";
+require_once __DIR__ ."/../../src/Debver/VersionException.php";
+
 use Debver\Version;
 use Debver\VersionException;
 use PHPUnit_Framework_TestCase;
