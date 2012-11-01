@@ -25,6 +25,11 @@ class Version
      */
     const ZEROPADLEN = 3;
 
+    /**
+     * @var String
+     */
+    protected $version;
+
 
     /**
      * Compares two Debian\Ubuntu package verison strings and returns:
@@ -199,5 +204,64 @@ class Version
         }
 
         return $components;
+    }
+
+
+    /**
+     * Constructor
+     *
+     * @param String $version
+     */
+    public function __construct($version)
+    {
+        $this->version = $version;
+    }
+
+
+    /**
+     * Returns the Epoch component of the version string
+     *
+     * @return String
+     */
+    public function getEpoch()
+    {
+        $parts = explode(":", $this->version, 2);
+
+        return (count($parts) == 2) ? $parts[0] : null;
+    }
+
+
+    /**
+     * Returns the Upstream Version component of the version string
+     *
+     * @return String
+     */
+    public function getUpstream()
+    {
+        $parts = explode("-", $this->version);
+
+        if (!count($parts)) {
+            return $this->version;
+        }
+
+        array_pop($this->version);
+        return implode("-", $parts);
+    }
+
+
+    /**
+     * Returns the Debian Revision component of the version string
+     *
+     * @return String
+     */
+    public function getRevision()
+    {
+        $parts = explode("-", $this->version);
+
+        if (!count($parts)) {
+            return null;
+        }
+
+        return array_pop($this->version);
     }
 }
