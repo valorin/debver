@@ -46,9 +46,9 @@ The three components to a version string can be extracted easily: *Epoch*, *Upst
 ```php
 $version = new Version($version1);
 
-$epoch = $version->getEpoch();
-$epoch = $version->getUpstream();
-$epoch = $version->getRevision();
+$epoch    = $version->getEpoch();
+$upstream = $version->getUpstream();
+$revision = $version->getRevision();
 ```
 
 [Ubuntu manual: deb-version](http://manpages.ubuntu.com/manpages/deb-version.5.html)
