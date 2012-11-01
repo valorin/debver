@@ -1,5 +1,6 @@
 debver - Debian/Ubuntu packager version helper
 ==============================================
+*Version 1.0*
 
 Simple PHP helper class for comparing Debian/Ubuntu package version strings.
 
