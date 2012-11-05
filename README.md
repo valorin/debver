@@ -1,6 +1,6 @@
 debver - Debian/Ubuntu packager version helper
 ==============================================
-*Version 1.1*  [![Build Status](https://secure.travis-ci.org/valorin/debver.png)](http://travis-ci.org/valorin/debver)
+*Version 1.2*  [![Build Status](https://secure.travis-ci.org/valorin/debver.png)](http://travis-ci.org/valorin/debver)
 
 Simple PHP helper class for working with Debian/Ubuntu package version strings.
 
