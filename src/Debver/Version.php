@@ -116,7 +116,19 @@ class Version
      */
     static public function compareWithDpkg($version1, $version2)
     {
-        if ($version1 == $version2) {
+        if (!$version1 && !$version2) {
+            return 0;
+        } elseif (!$version1 || !is_numeric($version1{0})) {
+            return -1;
+        } elseif (!$version2 || !is_numeric($version2{0})) {
+            return 1;
+        }
+
+        $cmd = str_replace("_", "", "dpkg --compare-versions {$version1} eq {$version2}");
+        $cmd = escapeshellcmd($cmd);
+        system($cmd, $status);
+
+        if (!$status) {
             return 0;
         }
 
