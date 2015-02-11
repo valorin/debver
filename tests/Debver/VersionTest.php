@@ -46,7 +46,17 @@ class VersionTest extends PHPUnit_Framework_TestCase
             }
         }
     }
+    
+    public function testVersionBeyondTenCompare()
+    {
+        $ver1 = '2.7.8.dfsg-2+squeeze8';
+        $ver2 = '2.7.8.dfsg-2+squeeze10';
 
+        $compare = Version::compare($ver1, $ver2);
+        $dpkg    = Version::compareWithDpkg($ver1, $ver2);
+
+        $this->assertEquals($dpkg, $compare);
+    }
 
     public function testGetEpochSet()
     {
