@@ -79,7 +79,7 @@ class Version
             /**
              * String compare values
              */
-            $compare = strcmp($value, $version2[$key]);
+            $compare = strnatcmp($value, $version2[$key]);
             if ($compare < 0) {
                 return -1;
             } elseif ($compare > 0) {
